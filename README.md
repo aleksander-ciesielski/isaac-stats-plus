@@ -3,8 +3,8 @@
   <img alt="Stats+ logo" src="./public/images/logo_dark.svg" width="250">
 </picture>
 
-![Steam page](https://img.shields.io/steam/subscriptions/2729900570)
-![GPL-3.0 licensed](https://img.shields.io/github/license/aleksander-ciesielski/isaac-stats-plus)
+[![Steam page](https://img.shields.io/steam/subscriptions/2729900570)](https://steamcommunity.com/sharedfiles/filedetails/?id=2729900570)
+[![GPL-3.0 licensed](https://img.shields.io/github/license/aleksander-ciesielski/isaac-stats-plus)](https://github.com/aleksander-ciesielski/isaac-stats-plus/blob/main/LICENSE)
 
 ---
 
