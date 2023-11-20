@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": ["./src"],
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "baseUrl": "./src",
+    "types": [
+      "@typescript-to-lua/language-extensions",
+      "isaac-typescript-definitions",
+      "@isaac-stats-plus/api",
+      "node",
+      "vitest/globals"
+    ]
+  }
+}

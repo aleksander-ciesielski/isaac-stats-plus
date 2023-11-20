@@ -1,0 +1,42 @@
+{
+  "name": "isaac-stats-plus",
+  "version": "2.0.0",
+  "license": "GPL-3.0",
+  "private": true,
+  "engines": {
+    "node": ">=20.7.0",
+    "npm": ">=10.1.0"
+  },
+  "repository": "github:aleksanderciesielski/isaac-stats-plus",
+  "bugs": "https://github.com/aleksanderciesielski/isaac-stats-plus/issues",
+  "author": "Aleksander Ciesielski <contact@aleksanderciesiel.ski>",
+  "workspaces": [
+    "./packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dependencies:upgrade": "ncu --upgrade --root --workspaces --target minor --packageManager npm && npm i",
+    "lint": "eslint packages/**/src/**/*.ts --max-warnings 0 && format-package --check package.json packages/*/package.json",
+    "lint:fix": "eslint packages/**/src/**/*.ts --fix --max-warnings 0 && format-package --write package.json packages/*/package.json",
+    "start": "npm run build && dotenv sh ./run.sh",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "5.62.0",
+    "@typescript-eslint/parser": "5.62.0",
+    "@vitest/coverage-v8": "0.34.6",
+    "dotenv-cli": "7.3.0",
+    "eslint": "8.54.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-config-airbnb-typescript": "17.1.0",
+    "eslint-plugin-import": "2.29.0",
+    "eslint-plugin-only-warn": "1.1.0",
+    "format-package": "7.0.0",
+    "npm-check-updates": "16.14.6",
+    "turbo": "1.10.16",
+    "typescript": "5.2.2",
+    "vite-tsconfig-paths": "4.2.1",
+    "vitest": "0.34.6"
+  }
+}

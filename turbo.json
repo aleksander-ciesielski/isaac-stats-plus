@@ -1,0 +1,10 @@
+{
+  "pipeline": {
+    "build": {
+      "outputs": ["dist/**"],
+      "dependsOn": ["^build"]
+    },
+    "test:unit": {},
+    "test:types": {}
+  }
+}

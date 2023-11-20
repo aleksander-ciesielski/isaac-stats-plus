@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "declaration": true,
+    "composite": false,
+    "sourceMap": false,
+    "declarationMap": false,
+    "inlineSourceMap": false,
+    "noUnusedLocals": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noImplicitOverride": true,
+    "noUncheckedIndexedAccess": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": false,
+    "paths": {
+      "~/*": ["./*"],
+      "*": ["*"]
+    }
+  }
+}

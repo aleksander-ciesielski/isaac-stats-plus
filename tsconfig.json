@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.base.json",
+  "include": [
+    "./vitest.workspace.ts",
+    "./vitest.config.ts",
+    "./packages/*/vitest.config.ts"
+  ],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "noEmit": true
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "./**/*.test.ts",
+    "./src/testing/**/*.ts"
+  ],
+  "tstl": {
+    "luaTarget": "5.3",
+    "luaBundleEntry": "./src/main.ts",
+//    "luaBundle": "./main.lua",
+    "noHeader": true
+  },
+  "compilerOptions": {
+    "declaration": false,
+    "composite": false,
+    "sourceMap": false,
+    "declarationMap": false,
+    "inlineSourceMap": false
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": ["./**/*.test.ts"],
+  "tstl": {
+    "luaTarget": "5.3",
+    "luaBundleEntry": "./src/index.ts",
+    "noHeader": true,
+    "buildMode": "library"
+  },
+  "compilerOptions": {
+    "declaration": true,
+    "composite": false,
+    "sourceMap": false,
+    "declarationMap": true,
+    "inlineSourceMap": false
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "@isaac-stats-plus/api",
+  "version": "2.0.0",
+  "description": "",
+  "license": "GPL-3.0",
+  "private": false,
+  "repository": {
+    "directory": "packages/stats-plus-api",
+    "type": "git",
+    "url": "https://github.com/aleksanderciesielski/isaac-stats-plus.git"
+  },
+  "bugs": "https://github.com/aleksanderciesielski/isaac-stats-plus/issues",
+  "author": "Aleksander Ciesielski <contact@aleksanderciesiel.ski>",
+  "keywords": [
+    "isaac",
+    "tboi",
+    "stats",
+    "api"
+  ],
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json && tsc-alias -p tsconfig.build.json"
+  },
+  "types": "./dist/index.d.ts",
+  "dependencies": {
+    "isaac-typescript-definitions": "37.3.1"
+  },
+  "devDependencies": {
+    "tsc-alias": "1.8.8",
+    "type-fest": "3.13.1",
+    "typescript": "5.2.2",
+    "typescript-to-lua": "1.21.0"
+  }
+}

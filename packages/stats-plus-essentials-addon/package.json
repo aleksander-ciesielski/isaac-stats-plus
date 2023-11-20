@@ -1,0 +1,29 @@
+{
+  "name": "@isaac-stats-plus/essentials-addon",
+  "version": "2.0.0",
+  "license": "GPL-3.0",
+  "private": true,
+  "repository": {
+    "directory": "packages/stats-plus-essentials-addon",
+    "type": "git",
+    "url": "https://github.com/aleksanderciesielski/isaac-stats-plus.git"
+  },
+  "bugs": "https://github.com/aleksanderciesielski/isaac-stats-plus/issues",
+  "author": "Aleksander Ciesielski <contact@aleksanderciesiel.ski>",
+  "main": "./dist/index",
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json && tstl --project tsconfig.build.json && tsc-alias -p tsconfig.build.json"
+  },
+  "types": "./dist/index.d.ts",
+  "dependencies": {
+    "@isaac-stats-plus/api": "2.0.0",
+    "@isaac-stats-plus/common": "2.0.0",
+    "isaac-typescript-definitions": "37.3.1"
+  },
+  "devDependencies": {
+    "tsc-alias": "1.8.8",
+    "type-fest": "3.13.1",
+    "typescript": "5.2.2",
+    "typescript-to-lua": "1.21.0"
+  }
+}

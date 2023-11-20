@@ -1,0 +1,61 @@
+parser: "@typescript-eslint/parser"
+parserOptions:
+  project:
+    - "./packages/*/tsconfig.json"
+    - "./tsconfig.json"
+plugins:
+  - "@typescript-eslint"
+  - "only-warn"
+extends:
+  - "plugin:@typescript-eslint/strict"
+  - "airbnb-base"
+  - "airbnb-typescript/base"
+rules:
+  "@typescript-eslint/quotes": [warn, double]
+  "@typescript-eslint/consistent-type-imports": [warn, {
+    prefer: type-imports,
+    disallowTypeAnnotations: false
+  }]
+  "@typescript-eslint/consistent-type-exports": warn
+  "@typescript-eslint/no-shadow": off
+  "@typescript-eslint/no-unnecessary-type-assertion": [warn]
+  "@typescript-eslint/indent": [warn, 2, ignoredNodes: [TSTypeParameterInstantiation, TSConditionalType]]
+  "@typescript-eslint/array-type": [warn, {
+    default: array,
+    readonly: array
+  }]
+  "@typescript-eslint/no-unnecessary-condition": off
+  "@typescript-eslint/explicit-function-return-type": [warn, allowExpressions: true]
+  "@typescript-eslint/explicit-member-accessibility": [warn, accessibility: explicit]
+  "@typescript-eslint/method-signature-style": [warn, method]
+  "@typescript-eslint/no-invalid-void-type": [warn, allowAsThisParameter: true]
+  "@typescript-eslint/strict-boolean-expressions": [warn, {
+    allowString: false,
+    allowNumber: false,
+    allowNullableObject: false,
+    allowNullableBoolean: false,
+    allowNullableString: false,
+    allowNullableNumber: false,
+    allowAny: false
+  }]
+  "@typescript-eslint/consistent-type-definitions": off
+  "@typescript-eslint/lines-between-class-members": [warn, always, exceptAfterSingleLine: true]
+  "@typescript-eslint/no-empty-function": [warn, allow: [constructors]]
+  "@typescript-eslint/no-unnecessary-type-arguments": off
+  "@typescript-eslint/no-extraneous-class": [warn, allowWithDecorator: true]
+  "import/extensions": off
+  "import/prefer-default-export": off
+  "import/no-default-export": warn
+  "import/no-extraneous-dependencies": off
+  "import/order": [warn, groups: [type, index, sibling, parent, internal, external, builtin, object, unknown]]
+  "consistent-return": off
+  "no-spaced-func": off
+  "no-empty": [warn, allowEmptyCatch: true]
+  "prefer-destructuring": off
+  "class-methods-use-this": off
+  "yoda": [warn, never, onlyEquality: true]
+  "max-len": [warn, {
+    code: 120,
+    ignoreComments: true,
+    ignorePattern: "(^import .*?)|(^ *describe.*?)|(^ *it.*?)|(^ *@Inject.*?)",
+  }]
