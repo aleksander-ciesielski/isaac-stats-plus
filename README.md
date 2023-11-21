@@ -17,7 +17,7 @@
 [🔗 View *Stats+* on Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2729900570)
 
 ## 🧩 API
-![API typings on npm](https://img.shields.io/npm/v/isaac-stats-plus/api)
+[![API typings on npm](https://img.shields.io/npm/v/@isaac-stats-plus/api)](https://www.npmjs.com/package/@isaac-stats-plus/api)
 
 🚧 **API documentation in the making.** 🚧
 
