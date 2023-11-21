@@ -2,8 +2,8 @@ import type { EncodedSettingValue } from "~/types/extension/EncodedSettingValue"
 import { ProviderColor } from "~/entities/config/appearance/ProviderColor";
 
 export class ProviderSettings {
-  public static empty(): ProviderSettings {
-    return new ProviderSettings({}, ProviderColor.None);
+  public static empty(color: ProviderColor = ProviderColor.None): ProviderSettings {
+    return new ProviderSettings({}, color);
   }
 
   public constructor(

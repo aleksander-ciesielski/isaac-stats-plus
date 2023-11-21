@@ -19,9 +19,15 @@ import { StandaloneConditionExtension } from "~/entities/extension/condition/sta
 import { CompanionConditionExtension } from "~/entities/extension/condition/companion/CompanionConditionExtension";
 import { ConditionType } from "~/entities/extension/condition/ConditionType";
 import { StatExtension } from "~/entities/extension/stat/StatExtension";
+import { Inject } from "~/app/ioc/decorators/Inject";
+import { ExtensionService } from "~/services/extension/ExtensionService";
 
 @Singleton()
 export class ConfigMapper {
+  public constructor(
+    @Inject(ExtensionService) private readonly extensionService: ExtensionService,
+  ) {}
+
   public toConfig(configDTO: ConfigDTO): Config {
     const loadout = new HashMap(configDTO.loadout.map((entry) => [entry.stat, entry]));
 
@@ -41,12 +47,15 @@ export class ConfigMapper {
             this.toLoadoutConfigEntry(loadoutConfigEntryDTO)]),
         ),
       }),
-      new ProviderSettingsConfig({
-        providerSettings: new HashMap(configDTO.providerSettings.settings.map(({ ref, settings }) => [
-          new ProviderExtension(ref),
-          this.toProviderSettings(settings),
-        ])),
-      }),
+      new ProviderSettingsConfig(
+        this.extensionService,
+        {
+          providerSettings: new HashMap(configDTO.providerSettings.settings.map(({ ref, settings }) => [
+            new ProviderExtension(ref),
+            this.toProviderSettings(settings),
+          ])),
+        },
+      ),
       new ProviderStateConfig({
         providerState: new HashMap(configDTO.providerState.state.map(({ ref, state }) => [
           new ProviderExtension(ref),
