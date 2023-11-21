@@ -17,6 +17,9 @@
     "stats",
     "api"
   ],
+  "files": [
+    "./dist"
+  ],
   "scripts": {
     "build": "tsc --project tsconfig.build.json && tsc-alias -p tsconfig.build.json"
   },
