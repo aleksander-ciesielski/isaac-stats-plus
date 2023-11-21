@@ -1,7 +1,7 @@
 {
   "name": "@isaac-stats-plus/api",
   "version": "2.0.0",
-  "description": "",
+  "description": "TypeScript definitions for Stats+ extensions.",
   "license": "GPL-3.0",
   "private": false,
   "repository": {
