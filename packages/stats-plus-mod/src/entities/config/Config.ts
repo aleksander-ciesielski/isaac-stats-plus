@@ -25,7 +25,7 @@ export class Config {
     configVersion: Config.LATEST_CONFIG_VERSION,
     appearance: {
       textOpacity: 0.4,
-      bracketStyle: BracketStyle.Curly,
+      bracketStyle: BracketStyle.None,
       spacing: 5,
       showProviderChanges: true,
       useShaderColorFix: true,
