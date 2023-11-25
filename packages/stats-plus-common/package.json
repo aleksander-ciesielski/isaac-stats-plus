@@ -6,9 +6,9 @@
   "repository": {
     "directory": "packages/stats-plus-common",
     "type": "git",
-    "url": "https://github.com/aleksanderciesielski/isaac-stats-plus.git"
+    "url": "https://github.com/aleksander-ciesielski/isaac-stats-plus.git"
   },
-  "bugs": "https://github.com/aleksanderciesielski/isaac-stats-plus/issues",
+  "bugs": "https://github.com/aleksander-ciesielski/isaac-stats-plus/issues",
   "author": "Aleksander Ciesielski <contact@aleksanderciesiel.ski>",
   "main": "./dist/index",
   "scripts": {

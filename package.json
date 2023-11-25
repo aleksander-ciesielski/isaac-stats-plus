@@ -8,7 +8,7 @@
     "npm": ">=10.1.0"
   },
   "repository": "github:aleksanderciesielski/isaac-stats-plus",
-  "bugs": "https://github.com/aleksanderciesielski/isaac-stats-plus/issues",
+  "bugs": "https://github.com/aleksander-ciesielski/isaac-stats-plus/issues",
   "author": "Aleksander Ciesielski <contact@aleksanderciesiel.ski>",
   "workspaces": [
     "./packages/*"
