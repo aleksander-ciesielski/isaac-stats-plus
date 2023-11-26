@@ -20,4 +20,5 @@ export const characterMultipliers = new Map<PlayerType, (player: EntityPlayer) =
   [PlayerType.LOST_B, () => 1.3],
   [PlayerType.FORGOTTEN_B, () => 1.5],
   [PlayerType.LAZARUS_2_B, () => 1.5],
+  [PlayerType.CAIN_B, () => 1.2],
 ]);
