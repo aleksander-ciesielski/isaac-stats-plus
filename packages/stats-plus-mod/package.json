@@ -1,6 +1,6 @@
 {
   "name": "@isaac-stats-plus/mod",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "license": "GPL-3.0",
   "private": true,
   "repository": {
@@ -16,9 +16,9 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@isaac-stats-plus/api": "2.0.0",
-    "@isaac-stats-plus/common": "2.0.0",
-    "@isaac-stats-plus/essentials-addon": "2.0.0",
+    "@isaac-stats-plus/api": "2.0.2",
+    "@isaac-stats-plus/common": "2.0.2",
+    "@isaac-stats-plus/essentials-addon": "2.0.2",
     "isaac-typescript-definitions": "37.3.1"
   },
   "devDependencies": {
