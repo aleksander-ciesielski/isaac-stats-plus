@@ -36,8 +36,7 @@ export class LoadoutService {
   }
 
   public reload(): void {
-    Array.from(this.entries.values()).forEach((entry) => entry.unregister());
-    this.entries.clear();
+    this.unregister();
 
     const slots = this.playerService.getPlayers()
       .flatMap((player) => this.getSlotsForPlayer(player));
@@ -52,6 +51,11 @@ export class LoadoutService {
         }, e);
       }
     });
+  }
+
+  public unregister(): void {
+    Array.from(this.entries.values()).forEach((entry) => entry.unregister());
+    this.entries.clear();
   }
 
   private getSlotsForPlayer(player: Player): StatSlot[] {
