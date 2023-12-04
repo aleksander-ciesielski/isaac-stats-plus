@@ -17,6 +17,7 @@ import { damage } from "~/core/stats/damage";
 import { range } from "~/core/stats/range";
 import { shotSpeed } from "~/core/stats/shotSpeed";
 import { luck } from "~/core/stats/luck";
+import { GameService } from "~/services/GameService";
 
 @Singleton()
 export class RenderPositionProvider {
@@ -27,6 +28,7 @@ export class RenderPositionProvider {
     @Inject(InjectionToken.GameAPI) private readonly game: Game,
     @Inject(PlayerService) private readonly playerService: PlayerService,
     @Inject(ConfigService) private readonly configService: ConfigService,
+    @Inject(GameService) private readonly gameService: GameService,
     @Inject(FontFactory) private readonly fontFactory: FontFactory,
   ) {
     this.statFont = this.fontFactory.create("font/luaminioutlined.fnt");
@@ -109,7 +111,7 @@ export class RenderPositionProvider {
       if (
         this.game.Difficulty === Difficulty.NORMAL
         && this.isaac.GetChallenge() === Challenge.NULL
-        && this.canUnlockAchievements()
+        && this.gameService.areAchievementsEnabled()
       ) {
         return [x, y - 16];
       }
@@ -181,14 +183,5 @@ export class RenderPositionProvider {
 
   private createConfigSpacingTransformer(): PositionTransformer {
     return ([x, y]) => [x + this.configService.getConfig().appearance.getSpacing(), y];
-  }
-
-  // Source: https://github.com/Sectimus/isaac-planetarium-chance/blob/b703c0e0bf28f3d3f6252b829e7ec6adb6d1d7d2/main.lua#L308
-  private canUnlockAchievements(): boolean {
-    const machine = Isaac.Spawn(6, 11, 0, Vector(0, 0), Vector(0, 0), undefined);
-    const achievementsEnabled = machine.Exists();
-    machine.Remove();
-
-    return achievementsEnabled;
   }
 }

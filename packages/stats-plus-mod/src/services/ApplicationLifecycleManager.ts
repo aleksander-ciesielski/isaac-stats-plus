@@ -12,6 +12,7 @@ import { API } from "~/services/extension/API";
 import { Logger } from "~/Logger";
 import { ErrorWithContext } from "~/errors/ErrorWithContext";
 import { ModCallbackService } from "~/services/menu/ModCallbackService";
+import { GameService } from "~/services/GameService";
 
 @Singleton()
 export class ApplicationLifecycleManager {
@@ -28,6 +29,7 @@ export class ApplicationLifecycleManager {
     @Inject(StatService) private readonly statService: StatService,
     @Inject(RenderService) private readonly renderService: RenderService,
     @Inject(ModCallbackService) private readonly modCallbackService: ModCallbackService,
+    @Inject(GameService) private readonly gameService: GameService,
     @Inject(API) private readonly api: API,
   ) {}
 
@@ -48,6 +50,7 @@ export class ApplicationLifecycleManager {
       this.configService.reload();
       this.menuService.reload();
       this.playerService.reload();
+      this.gameService.reload();
       this.statService.reload();
       this.loadoutService.reload();
       this.renderService.reload();
