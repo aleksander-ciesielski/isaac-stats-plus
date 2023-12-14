@@ -24,6 +24,6 @@
     "tsc-alias": "1.8.8",
     "type-fest": "3.13.1",
     "typescript": "5.2.2",
-    "typescript-to-lua": "1.21.0"
+    "typescript-to-lua": "1.22.0"
   }
 }
