@@ -28,7 +28,7 @@ export class Config {
       bracketStyle: BracketStyle.None,
       spacing: 5,
       showProviderChanges: true,
-      useShaderColorFix: true,
+      useShaderColorFix: false,
     },
     loadout: [
       {
