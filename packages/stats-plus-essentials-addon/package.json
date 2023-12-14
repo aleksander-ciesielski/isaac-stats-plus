@@ -1,6 +1,6 @@
 {
   "name": "@isaac-stats-plus/essentials-addon",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "license": "GPL-3.0",
   "private": true,
   "repository": {
@@ -16,8 +16,8 @@
   },
   "types": "./dist/index.d.ts",
   "dependencies": {
-    "@isaac-stats-plus/api": "2.0.4",
-    "@isaac-stats-plus/common": "2.0.4",
+    "@isaac-stats-plus/api": "2.0.5",
+    "@isaac-stats-plus/common": "2.0.5",
     "isaac-typescript-definitions": "37.3.1"
   },
   "devDependencies": {
