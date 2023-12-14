@@ -19,7 +19,7 @@ import { luck } from "~/core/stats/luck";
 import { ALWAYS_CONDITION_ID, CORE_ADDON_ID, NULL_PROVIDER_ID } from "~/core/coreAddonConstants";
 
 export class Config {
-  public static readonly LATEST_CONFIG_VERSION = "2.0.0" as const;
+  public static readonly LATEST_CONFIG_VERSION = "2.0.5" as const;
 
   public static readonly DEFAULT_CONFIG: ConfigDTO = {
     configVersion: Config.LATEST_CONFIG_VERSION,
