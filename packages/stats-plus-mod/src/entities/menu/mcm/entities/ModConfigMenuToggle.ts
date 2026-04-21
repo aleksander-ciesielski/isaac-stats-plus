@@ -15,6 +15,8 @@ export class ModConfigMenuToggle implements MenuEntity<ModConfigMenuContext> {
     }
 
     ctx.modConfigMenu.AddSetting(ctx.category, ctx.subcategory, {
+      // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+      // @ts-ignore
       Type: ModConfigMenuOptionType.BOOLEAN,
       Info: this.toggle.description,
       Display: () => {

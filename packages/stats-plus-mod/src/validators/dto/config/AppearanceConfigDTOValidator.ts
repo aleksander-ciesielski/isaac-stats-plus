@@ -20,7 +20,6 @@ export class AppearanceConfigDTOValidator {
       bracketStyle: this.getValidatedBracketStyle(appearance.bracketStyle as Unvalidated<BracketStyle>),
       spacing: this.getValidatedSpacing(appearance.spacing as Unvalidated<number>),
       showProviderChanges: this.getValidatedShowProviderChanges(appearance.showProviderChanges as Unvalidated<boolean>),
-      useShaderColorFix: this.getValidatedUseShaderColorFix(appearance.useShaderColorFix as Unvalidated<boolean>),
     };
   }
 
@@ -90,18 +89,5 @@ export class AppearanceConfigDTOValidator {
     }
 
     return showProviderChanges;
-  }
-
-  private getValidatedUseShaderColorFix(useShaderColorFix: Unvalidated<boolean>): boolean {
-    if (typeof useShaderColorFix !== "boolean") {
-      this.logger.warn(
-        "Expected 'use shader color fix' option to be a boolean value.",
-        { useShaderColorFix, type: typeof useShaderColorFix },
-      );
-
-      return Config.DEFAULT_CONFIG.appearance.useShaderColorFix;
-    }
-
-    return useShaderColorFix;
   }
 }

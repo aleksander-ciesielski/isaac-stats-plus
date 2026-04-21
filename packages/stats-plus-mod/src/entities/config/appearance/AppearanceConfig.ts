@@ -5,7 +5,6 @@ export interface AppearanceConfigCreateOptions {
   bracketStyle: BracketStyle;
   spacing: number;
   showProviderChanges: boolean;
-  useShaderColorFix: boolean;
 }
 
 export class AppearanceConfig {
@@ -27,14 +26,12 @@ export class AppearanceConfig {
   private bracketStyle: BracketStyle;
   private spacing: number;
   private showProviderChanges: boolean;
-  private useShaderColorFix: boolean;
 
   public constructor(options: AppearanceConfigCreateOptions) {
     this.textOpacity = options.textOpacity;
     this.bracketStyle = options.bracketStyle;
     this.spacing = options.spacing;
     this.showProviderChanges = options.showProviderChanges;
-    this.useShaderColorFix = options.useShaderColorFix;
   }
 
   public clone(): AppearanceConfig {
@@ -43,7 +40,6 @@ export class AppearanceConfig {
       bracketStyle: this.bracketStyle,
       spacing: this.spacing,
       showProviderChanges: this.showProviderChanges,
-      useShaderColorFix: this.useShaderColorFix,
     });
   }
 
@@ -63,10 +59,6 @@ export class AppearanceConfig {
     return this.showProviderChanges;
   }
 
-  public usesShaderColorFix(): boolean {
-    return this.useShaderColorFix;
-  }
-
   public setTextOpacity(textOpacity: number): void {
     this.textOpacity = textOpacity;
   }
@@ -81,9 +73,5 @@ export class AppearanceConfig {
 
   public setShowingOfProviderChanges(showProviderChanges: boolean): void {
     this.showProviderChanges = showProviderChanges;
-  }
-
-  public setShaderColorFixUsage(useShaderColorFix: boolean): void {
-    this.useShaderColorFix = useShaderColorFix;
   }
 }

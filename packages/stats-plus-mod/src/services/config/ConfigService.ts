@@ -15,7 +15,11 @@ export class ConfigService {
     @Inject(LifecycleService) private readonly lifecycleService: LifecycleService,
   ) {}
 
-  public getConfig(): Config {
+  public getConfigOrThrow(): Config {
+    return this.configRepository.getOrThrow();
+  }
+
+  public getConfig(): Config | undefined {
     return this.configRepository.get();
   }
 
@@ -28,7 +32,7 @@ export class ConfigService {
 
   public updateConfig(update: (config: Config) => void): void {
     try {
-      const config = this.getConfig().clone();
+      const config = this.getConfigOrThrow().clone();
       update(config);
 
       this.configRepository.save(config);

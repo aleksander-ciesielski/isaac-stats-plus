@@ -6,7 +6,7 @@ import type { ConfigDTO } from "~/types/config/dto/ConfigDTO";
 import {
   D8_MULTIPLIER_PROVIDER_ID,
   DAMAGE_MULTIPLIER_PROVIDER_ID,
-  ESSENTIALS_ADDON_ID, MAP_BUTTON_HELD_CONDITION_ID,
+  ESSENTIALS_ADDON_ID, MAP_BUTTON_HELD_CONDITION_ID, TEAR_CAP_PROVIDER_ID,
 } from "@isaac-stats-plus/essentials-addon";
 import { BracketStyle } from "~/entities/config/appearance/BracketStyle";
 import { ConditionType } from "~/entities/extension/condition/ConditionType";
@@ -17,18 +17,19 @@ import { range } from "~/core/stats/range";
 import { shotSpeed } from "~/core/stats/shotSpeed";
 import { luck } from "~/core/stats/luck";
 import { ALWAYS_CONDITION_ID, CORE_ADDON_ID, NULL_PROVIDER_ID } from "~/core/coreAddonConstants";
+import { LogLevel } from "~/Logger";
 
 export class Config {
-  public static readonly LATEST_CONFIG_VERSION = "2.0.5" as const;
+  public static readonly LATEST_CONFIG_VERSION = "2.1.2" as const;
 
   public static readonly DEFAULT_CONFIG: ConfigDTO = {
     configVersion: Config.LATEST_CONFIG_VERSION,
+    logLevel: LogLevel.Info,
     appearance: {
       textOpacity: 0.4,
       bracketStyle: BracketStyle.None,
       spacing: 5,
       showProviderChanges: true,
-      useShaderColorFix: false,
     },
     loadout: [
       {
@@ -46,7 +47,7 @@ export class Config {
       {
         stat: tears.getExternalAPI(),
         primaryProvider: { addon: ESSENTIALS_ADDON_ID, id: D8_MULTIPLIER_PROVIDER_ID },
-        secondaryProvider: { addon: CORE_ADDON_ID, id: NULL_PROVIDER_ID },
+        secondaryProvider: { addon: ESSENTIALS_ADDON_ID, id: TEAR_CAP_PROVIDER_ID },
         condition: {
           type: ConditionType.Standalone,
           ref: {
@@ -113,7 +114,8 @@ export class Config {
   };
 
   public constructor(
-    public readonly configVersion: string,
+    private readonly configVersion: string,
+    private logLevel: LogLevel,
     public readonly appearance: AppearanceConfig,
     public readonly loadout: LoadoutConfig,
     public readonly providerSettings: ProviderSettingsConfig,
@@ -123,10 +125,23 @@ export class Config {
   public clone(): Config {
     return new Config(
       this.configVersion,
+      this.logLevel,
       this.appearance.clone(),
       this.loadout.clone(),
       this.providerSettings.clone(),
       this.providerState.clone(),
     );
+  }
+
+  public getConfigVersion(): string {
+    return this.configVersion;
+  }
+
+  public getLogLevel(): LogLevel {
+    return this.logLevel;
+  }
+
+  public setLogLevel(logLevel: LogLevel): void {
+    this.logLevel = logLevel;
   }
 }

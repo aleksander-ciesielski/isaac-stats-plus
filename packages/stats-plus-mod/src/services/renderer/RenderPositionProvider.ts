@@ -18,6 +18,7 @@ import { range } from "~/core/stats/range";
 import { shotSpeed } from "~/core/stats/shotSpeed";
 import { luck } from "~/core/stats/luck";
 import { GameService } from "~/services/GameService";
+import { EnvironmentService } from "~/services/EnvironmentService";
 
 @Singleton()
 export class RenderPositionProvider {
@@ -30,6 +31,7 @@ export class RenderPositionProvider {
     @Inject(ConfigService) private readonly configService: ConfigService,
     @Inject(GameService) private readonly gameService: GameService,
     @Inject(FontFactory) private readonly fontFactory: FontFactory,
+    @Inject(EnvironmentService) private readonly environmentService: EnvironmentService,
   ) {
     this.statFont = this.fontFactory.create("font/luaminioutlined.fnt");
   }
@@ -103,6 +105,7 @@ export class RenderPositionProvider {
       this.createJacobTransformer(),
       this.createIconTransformer(),
       this.createConfigSpacingTransformer(),
+      this.createRepentancePlusTransformer(),
     ].reduce((acc, transformer) => transformer(acc), basePosition);
   }
 
@@ -182,6 +185,14 @@ export class RenderPositionProvider {
   }
 
   private createConfigSpacingTransformer(): PositionTransformer {
-    return ([x, y]) => [x + this.configService.getConfig().appearance.getSpacing(), y];
+    return ([x, y]) => [x + this.configService.getConfigOrThrow().appearance.getSpacing(), y];
+  }
+
+  private createRepentancePlusTransformer(): PositionTransformer {
+    if (this.environmentService.isRepentancePlus()) {
+      return ([x, y]) => [x, y + 2];
+    }
+
+    return ([x, y]) => [x, y];
   }
 }

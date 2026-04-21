@@ -34,6 +34,8 @@ export class ModConfigMenuSelect<TValue> implements MenuEntity<ModConfigMenuCont
     const value = new ModConfigMenuResolvedSelectValue(this.select, this.valueToIndexMap);
 
     ctx.modConfigMenu.AddSetting(ctx.category, ctx.subcategory, {
+      // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+      // @ts-ignore
       Type: ModConfigMenuOptionType.NUMBER,
       Info: this.select.description,
       Minimum: 0,

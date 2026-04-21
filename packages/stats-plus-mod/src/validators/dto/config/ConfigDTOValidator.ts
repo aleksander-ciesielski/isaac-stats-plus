@@ -1,5 +1,6 @@
 import type { ConfigDTO } from "~/types/config/dto/ConfigDTO";
 import type { Unvalidated } from "~/types/validation/Unvalidated";
+import type { LogLevel } from "~/Logger";
 import { AppearanceConfigDTOValidator } from "~/validators/dto/config/AppearanceConfigDTOValidator";
 import { LoadoutConfigDTOValidator } from "~/validators/dto/config/LoadoutConfigDTOValidator";
 import { ProviderSettingsConfigDTOValidator } from "~/validators/dto/config/ProviderSettingsConfigDTOValidator";
@@ -40,10 +41,24 @@ export class ConfigDTOValidator {
 
     return {
       configVersion: baseConfigDTO.configVersion,
+      logLevel: this.validateLogLevel(baseConfigDTO.logLevel),
       appearance: this.appearanceConfigDTOValidator.validate(baseConfigDTO.appearance),
       loadout: this.loadoutConfigDTOValidator.validate(baseConfigDTO.loadout),
       providerSettings: this.providerSettingsConfigDTOValidator.validate(baseConfigDTO.providerSettings),
       providerState: this.stateConfigDTOValidator.validate(baseConfigDTO.providerState),
     };
+  }
+
+  private validateLogLevel(logLevel: unknown): LogLevel {
+    if (!Logger.AVAILABLE_LOG_LEVELS.includes(logLevel as LogLevel)) {
+      this.logger.warn(
+        "Expected log level to be a valid enum value.",
+        { logLevel, type: typeof logLevel, availableLogLevels: Logger.AVAILABLE_LOG_LEVELS },
+      );
+
+      return Config.DEFAULT_CONFIG.logLevel;
+    }
+
+    return logLevel as LogLevel;
   }
 }

@@ -12,7 +12,7 @@ export class ProviderStatePersistentEntry<TValue> implements ProviderStateEntry<
   ) {}
 
   public getValue(): TValue | undefined {
-    const encoded = this.configService.getConfig().providerState.get(this.providerExtension, this.key);
+    const encoded = this.configService.getConfigOrThrow().providerState.get(this.providerExtension, this.key);
     if (encoded === undefined) {
       return undefined;
     }

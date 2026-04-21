@@ -17,7 +17,7 @@ export class SettingsResolver {
     provider: ProviderDefinition,
   ): ResolvedSettings<TSettings> {
     const resolvedCustomSettingEntries = provider.getSettings().getSettings().map((setting) => {
-      const value = this.configService.getConfig().providerSettings.getCustomSettingValue(
+      const value = this.configService.getConfigOrThrow().providerSettings.getCustomSettingValue(
         this.settingEncoderService,
         provider.getExtension(),
         setting,
@@ -27,7 +27,7 @@ export class SettingsResolver {
     });
 
     return new ResolvedSettings({
-      color: this.configService.getConfig().providerSettings.getProviderColor(provider),
+      color: this.configService.getConfigOrThrow().providerSettings.getProviderColor(provider),
       custom: Object.fromEntries(resolvedCustomSettingEntries),
     });
   }

@@ -57,7 +57,7 @@ export class MenuLoadoutSection implements MenuSection {
     stat: StatExtension,
     subSectionName: string,
   ): void {
-    const loadoutEntry = this.configService.getConfig().loadout.getLoadoutEntry(stat);
+    const loadoutEntry = this.configService.getConfigOrThrow().loadout.getLoadoutEntry(stat);
 
     const availableConditions = this.extensionService.getAvailableConditions(loadoutEntry)
       .map((extension) => ({ extension, condition: this.extensionService.getCondition(extension) }))
@@ -97,7 +97,7 @@ export class MenuLoadoutSection implements MenuSection {
         name: "When",
         description: [
           this.extensionService
-            .resolveCondition(this.configService.getConfig().loadout.getLoadoutEntry(stat))
+            .resolveCondition(this.configService.getConfigOrThrow().loadout.getLoadoutEntry(stat))
             .getDescription(),
         ],
         options: conditionOptions,
@@ -105,7 +105,7 @@ export class MenuLoadoutSection implements MenuSection {
           this.extensionService.getFallbackCondition().getName(),
           this.extensionService.getFallbackCondition().getExtension(),
         ),
-        retrieve: () => this.configService.getConfig().loadout.getCondition(stat),
+        retrieve: () => this.configService.getConfigOrThrow().loadout.getCondition(stat),
         update: (condition) => {
           this.configService.updateConfigAndReload((config) => {
             config.loadout.setCondition(stat, condition);
@@ -116,7 +116,7 @@ export class MenuLoadoutSection implements MenuSection {
         name: "Then",
         description: [
           this.extensionService
-            .resolveProvider(this.configService.getConfig().loadout.getPrimaryProvider(stat))
+            .resolveProvider(this.configService.getConfigOrThrow().loadout.getPrimaryProvider(stat))
             .getDescription(),
         ],
         options: providerOptions,
@@ -125,7 +125,7 @@ export class MenuLoadoutSection implements MenuSection {
           this.extensionService.getFallbackProvider().getExtension(),
         ),
         retrieve: () => {
-          const current = this.configService.getConfig().loadout.getPrimaryProvider(stat);
+          const current = this.configService.getConfigOrThrow().loadout.getPrimaryProvider(stat);
           const matching = providerOptionsMap.get(current);
 
           return matching?.getValue();
@@ -140,7 +140,7 @@ export class MenuLoadoutSection implements MenuSection {
         name: "Else",
         description: [
           this.extensionService
-            .resolveProvider(this.configService.getConfig().loadout.getSecondaryProvider(stat))
+            .resolveProvider(this.configService.getConfigOrThrow().loadout.getSecondaryProvider(stat))
             .getDescription(),
         ],
         options: providerOptions,
@@ -149,7 +149,7 @@ export class MenuLoadoutSection implements MenuSection {
           this.extensionService.getFallbackProvider().getExtension(),
         ),
         condition: () => {
-          const condition = this.configService.getConfig().loadout.getCondition(stat);
+          const condition = this.configService.getConfigOrThrow().loadout.getCondition(stat);
           if (condition instanceof StandaloneConditionExtension) {
             return !condition.isAlwaysCondition();
           }
@@ -157,7 +157,7 @@ export class MenuLoadoutSection implements MenuSection {
           return true;
         },
         retrieve: () => {
-          const current = this.configService.getConfig().loadout.getSecondaryProvider(stat);
+          const current = this.configService.getConfigOrThrow().loadout.getSecondaryProvider(stat);
           const matching = providerOptionsMap.get(current);
 
           return matching?.getValue();

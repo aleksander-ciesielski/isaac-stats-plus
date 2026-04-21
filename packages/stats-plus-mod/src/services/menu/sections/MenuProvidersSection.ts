@@ -50,7 +50,7 @@ export class MenuProvidersSection implements MenuSection {
     menu.heading({ text: MenuProvidersSection.CURRENTLY_IN_USE_SUBSECTION_NAME });
     menu.space();
 
-    this.registerProviders(menu, this.configService.getConfig().loadout.getCurrentlyUsedProviders());
+    this.registerProviders(menu, this.configService.getConfigOrThrow().loadout.getCurrentlyUsedProviders());
   }
 
   private registerAllProvidersSubsection(menu: Menu): void {
@@ -91,7 +91,7 @@ export class MenuProvidersSection implements MenuSection {
       name: "Color",
       description: ["Color of the provider"],
       options: MenuProvidersSection.AVAILABLE_COLOR_OPTIONS,
-      retrieve: () => this.configService.getConfig().providerSettings.getProviderColor(provider),
+      retrieve: () => this.configService.getConfigOrThrow().providerSettings.getProviderColor(provider),
       update: (value) => {
         this.configService.updateConfigAndReload((config) => {
           config.providerSettings.setProviderColor(provider.getExtension(), value);

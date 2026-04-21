@@ -6,6 +6,9 @@ import { singleton } from "~/app/ioc/resolution/singleton";
 import { createMod } from "~/app/createMod";
 import { IngameValue } from "~/services/IngameValue";
 import { ModCallbackService } from "~/services/ModCallbackService";
+import { APPLICATION_CONTAINER } from "~/app/APPLICATION_CONTAINER";
+import { ConfigService } from "~/services/config/ConfigService";
+import { transient } from "~/app/ioc/resolution/transient";
 
 // For some reason, TSTL won't make it work without this pointless adapter.
 const jsonSerializerAdapter: JsonSerializer = {
@@ -27,4 +30,5 @@ export const injectionTokenEntityMapping = {
   [InjectionToken.ModAPI]: singleton(() => createMod()),
   [InjectionToken.OptionsAPI]: singleton(() => Options),
   [InjectionToken.JsonSerializer]: singleton(() => jsonSerializerAdapter),
+  [InjectionToken.ConfigService]: transient(() => APPLICATION_CONTAINER.resolve(ConfigService)),
 } as const satisfies Record<InjectionToken, (container: Container) => unknown>;

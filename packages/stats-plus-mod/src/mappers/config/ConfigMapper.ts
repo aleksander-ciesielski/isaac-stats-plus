@@ -33,12 +33,12 @@ export class ConfigMapper {
 
     return new Config(
       configDTO.configVersion,
+      configDTO.logLevel,
       new AppearanceConfig({
         textOpacity: configDTO.appearance.textOpacity,
         bracketStyle: configDTO.appearance.bracketStyle,
         spacing: configDTO.appearance.spacing,
         showProviderChanges: configDTO.appearance.showProviderChanges,
-        useShaderColorFix: configDTO.appearance.useShaderColorFix,
       }),
       new LoadoutConfig({
         entries: new HashMap(
@@ -67,13 +67,13 @@ export class ConfigMapper {
 
   public toDTO(config: Config): ConfigDTO {
     return {
-      configVersion: config.configVersion,
+      configVersion: config.getConfigVersion(),
+      logLevel: config.getLogLevel(),
       appearance: {
         textOpacity: config.appearance.getTextOpacity(),
         bracketStyle: config.appearance.getBracketStyle(),
         spacing: config.appearance.getSpacing(),
         showProviderChanges: config.appearance.showsProviderChanges(),
-        useShaderColorFix: config.appearance.usesShaderColorFix(),
       },
       loadout: config.loadout.getActiveStats()
         .map((stat) => config.loadout.getLoadoutEntry(stat))

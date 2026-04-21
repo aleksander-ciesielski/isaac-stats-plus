@@ -19,6 +19,8 @@ export class ModConfigMenuRange implements MenuEntity<ModConfigMenuContext> {
     }
 
     ctx.modConfigMenu.AddSetting(ctx.category, ctx.subcategory, {
+      // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+      // @ts-ignore
       Type: ModConfigMenuOptionType.SCROLL,
       Info: this.range.description,
       Display: () => {

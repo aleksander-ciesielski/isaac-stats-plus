@@ -5,4 +5,5 @@ export enum InjectionToken {
   ModAPI,
   OptionsAPI,
   JsonSerializer,
+  ConfigService,
 }

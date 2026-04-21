@@ -44,7 +44,7 @@ export class ModConfigMenuSettingMapper implements ProviderSettingMapper<ModConf
     return new ModConfigMenuToggle({
       name: toggle.getName(),
       description: [toggle.getDescription()],
-      retrieve: () => this.configService.getConfig().providerSettings.getCustomSettingValue(
+      retrieve: () => this.configService.getConfigOrThrow().providerSettings.getCustomSettingValue(
         this.settingEncoderService,
         provider,
         toggle,
@@ -71,7 +71,7 @@ export class ModConfigMenuSettingMapper implements ProviderSettingMapper<ModConf
       description: [range.getDescription()],
       min: range.getMinValue(),
       max: range.getMaxValue(),
-      retrieve: () => this.configService.getConfig().providerSettings
+      retrieve: () => this.configService.getConfigOrThrow().providerSettings
         .getCustomSettingValue(this.settingEncoderService, provider, range),
       update: (customSettingValue) => {
         this.configService.updateConfigAndReload((config) => {
@@ -95,7 +95,7 @@ export class ModConfigMenuSettingMapper implements ProviderSettingMapper<ModConf
       name: select.getName(),
       description: [select.getDescription()],
       options: select.getOptions(),
-      retrieve: () => this.configService.getConfig().providerSettings.getCustomSettingValue(
+      retrieve: () => this.configService.getConfigOrThrow().providerSettings.getCustomSettingValue(
         this.settingEncoderService,
         provider,
         select,

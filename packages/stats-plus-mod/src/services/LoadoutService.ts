@@ -57,7 +57,7 @@ export class LoadoutService {
   }
 
   private createEntryFromSlot(slot: StatSlot): LoadoutEntry {
-    const loadout = this.configService.getConfig().loadout;
+    const loadout = this.configService.getConfigOrThrow().loadout;
 
     const primaryProviderInstance = this.providerFactory.createProvider(
       loadout.getPrimaryProvider(slot.stat),

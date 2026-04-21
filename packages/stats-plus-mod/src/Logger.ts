@@ -6,8 +6,22 @@ import { APPLICATION_CONTAINER } from "~/app/APPLICATION_CONTAINER";
 import { InjectionToken } from "~/app/ioc/InjectionToken";
 import { tryCatch } from "~/util/functional/tryCatch";
 
+export enum LogLevel {
+  Debug = 0,
+  Info = 1,
+  Warn = 2,
+  Error = 3,
+}
+
 @Transient()
 export class Logger {
+  public static readonly AVAILABLE_LOG_LEVELS: LogLevel[] = [
+    LogLevel.Debug,
+    LogLevel.Info,
+    LogLevel.Warn,
+    LogLevel.Error,
+  ];
+
   // Set this to `true` to enable logging to the in-game console (~).
   private static readonly LOG_TO_CONSOLE_DEVELOPMENT_FLAG = false;
 
@@ -33,15 +47,15 @@ export class Logger {
   }
 
   public debug(message: string, context?: Record<keyof never, unknown>): void {
-    this.logMessage(this.getFullMessage("DEBUG", message, context));
+    this.logMessage(LogLevel.Debug, this.getFullMessage("DEBUG", message, context));
   }
 
   public info(message: string, context?: Record<keyof never, unknown>): void {
-    this.logMessage(this.getFullMessage("INFO", message, context));
+    this.logMessage(LogLevel.Info, this.getFullMessage("INFO", message, context));
   }
 
   public warn(message: string, context?: Record<keyof never, unknown>): void {
-    this.logMessage(this.getFullMessage("WARN", message, context));
+    this.logMessage(LogLevel.Warn, this.getFullMessage("WARN", message, context));
   }
 
   public error(errorMessage: string, relatedError?: any, context?: Record<keyof never, unknown>): void {
@@ -49,11 +63,11 @@ export class Logger {
       ? errorMessage
       : new ErrorWithContext(errorMessage, context ?? {}, relatedError).getFullMessage(this.jsonSerializer);
 
-    this.logMessage(this.getFullMessage("ERROR", message));
+    this.logMessage(LogLevel.Error, this.getFullMessage("ERROR", message));
   }
 
-  private getFullMessage(logLevel: string, baseMessage: string, context?: object): string {
-    const messageWithoutContext = `(${logLevel}) [${Logger.LOG_MESSAGE_PREFIX}@${this.nameSpace}] ${baseMessage}`;
+  private getFullMessage(levelName: string, baseMessage: string, context?: object): string {
+    const messageWithoutContext = `(${levelName}) [${Logger.LOG_MESSAGE_PREFIX}@${this.nameSpace}] ${baseMessage}`;
 
     if (context === undefined) {
       return messageWithoutContext;
@@ -67,7 +81,16 @@ export class Logger {
     return `${messageWithoutContext} | ${encodedContext}`;
   }
 
-  private logMessage(message: string): void {
+  private logMessage(level: LogLevel, message: string): void {
+    const minimumLogLevel = APPLICATION_CONTAINER
+      .resolve(InjectionToken.ConfigService)
+      .getConfig()
+      ?.getLogLevel() ?? LogLevel.Debug;
+
+    if (minimumLogLevel > level) {
+      return;
+    }
+
     this.isaac.DebugString(message);
 
     if (Logger.LOG_TO_CONSOLE_DEVELOPMENT_FLAG) {

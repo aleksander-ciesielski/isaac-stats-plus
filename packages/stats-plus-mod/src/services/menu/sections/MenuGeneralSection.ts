@@ -8,6 +8,7 @@ import { Inject } from "~/app/ioc/decorators/Inject";
 import { BracketStyle } from "~/entities/config/appearance/BracketStyle";
 import * as applicationConstants from "~/app/applicationConstants";
 import { ProviderSelectSettingOption } from "~/entities/extension/provider/settings/ProviderSelectSettingOption";
+import { LogLevel } from "~/Logger";
 
 @Singleton()
 export class MenuGeneralSection implements MenuSection {
@@ -33,6 +34,23 @@ export class MenuGeneralSection implements MenuSection {
       .readonly({
         name: "Version",
         value: applicationConstants.APPLICATION_VERSION,
+      })
+      .select({
+        name: "Log Level",
+        description: [],
+        options: [
+          new ProviderSelectSettingOption("Debug", LogLevel.Debug),
+          new ProviderSelectSettingOption("Info", LogLevel.Info),
+          new ProviderSelectSettingOption("Warn", LogLevel.Warn),
+          new ProviderSelectSettingOption("Error", LogLevel.Error),
+        ],
+        fallback: () => new ProviderSelectSettingOption("Info", LogLevel.Info),
+        retrieve: () => this.configService.getConfigOrThrow().getLogLevel(),
+        update: (logLevel) => {
+          this.configService.updateConfigAndReload((config) => {
+            config.setLogLevel(logLevel);
+          });
+        },
       });
   }
 
@@ -45,7 +63,7 @@ export class MenuGeneralSection implements MenuSection {
         format: (value) => `${Math.round(value * 100)}%`,
         min: AppearanceConfig.MIN_TEXT_OPACITY,
         max: AppearanceConfig.MAX_TEXT_OPACITY,
-        retrieve: () => this.configService.getConfig().appearance.getTextOpacity(),
+        retrieve: () => this.configService.getConfigOrThrow().appearance.getTextOpacity(),
         update: (textOpacity) => {
           this.configService.updateConfigAndReload((config) => {
             config.appearance.setTextOpacity(textOpacity);
@@ -63,10 +81,10 @@ export class MenuGeneralSection implements MenuSection {
           new ProviderSelectSettingOption("Angle", BracketStyle.Angle),
         ],
         fallback: () => new ProviderSelectSettingOption(
-          this.configService.getConfig().appearance.getBracketStyle(),
-          this.configService.getConfig().appearance.getBracketStyle(),
+          this.configService.getConfigOrThrow().appearance.getBracketStyle(),
+          this.configService.getConfigOrThrow().appearance.getBracketStyle(),
         ),
-        retrieve: () => this.configService.getConfig().appearance.getBracketStyle(),
+        retrieve: () => this.configService.getConfigOrThrow().appearance.getBracketStyle(),
         update: (bracketStyle) => {
           this.configService.updateConfigAndReload((config) => {
             config.appearance.setBracketStyle(bracketStyle);
@@ -79,7 +97,7 @@ export class MenuGeneralSection implements MenuSection {
         format: (value) => `${toFixedFormatted(value, 1)} px`,
         min: AppearanceConfig.MIN_SPACING,
         max: AppearanceConfig.MAX_SPACING,
-        retrieve: () => this.configService.getConfig().appearance.getSpacing(),
+        retrieve: () => this.configService.getConfigOrThrow().appearance.getSpacing(),
         update: (spacing) => {
           this.configService.updateConfigAndReload((config) => {
             config.appearance.setSpacing(spacing);
@@ -89,20 +107,10 @@ export class MenuGeneralSection implements MenuSection {
       .toggle({
         name: "Show provider changes",
         description: ["Displays a changed value when the provider is updated."],
-        retrieve: () => this.configService.getConfig().appearance.showsProviderChanges(),
+        retrieve: () => this.configService.getConfigOrThrow().appearance.showsProviderChanges(),
         update: (showProviderChanges) => {
           this.configService.updateConfigAndReload((config) => {
             config.appearance.setShowingOfProviderChanges(showProviderChanges);
-          });
-        },
-      })
-      .toggle({
-        name: "Use shader color fix",
-        description: ["(REQUIRES RESTART) Renders Stats+ without being affected by the stage colors."],
-        retrieve: () => this.configService.getConfig().appearance.usesShaderColorFix(),
-        update: (usesShaderColorFix) => {
-          this.configService.updateConfigAndReload((config) => {
-            config.appearance.setShaderColorFixUsage(usesShaderColorFix);
           });
         },
       });

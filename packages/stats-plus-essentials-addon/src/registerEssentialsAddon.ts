@@ -4,6 +4,7 @@ import { createDamageMultiplierProvider } from "~/providers/damageMultiplierProv
 import { createD8MultiplierProvider } from "~/providers/d8MultiplierProvider/createD8MultiplierProvider";
 import { createMapButtonHeldCondition } from "~/conditions/createMapButtonHeldCondition";
 import { createToggledViaDropButtonCondition } from "~/conditions/createToggledViaDropButtonCondition";
+import { createTearCapProvider } from "~/providers/tearCapProvider/createTearCapProvider";
 
 export function registerEssentialsAddon(mod: Mod, json: typeof jsonModule): void {
   mod.AddCallback("STATS_PLUS_REGISTER", (api) => {
@@ -13,6 +14,7 @@ export function registerEssentialsAddon(mod: Mod, json: typeof jsonModule): void
       providers: [
         createDamageMultiplierProvider(api, mod, json),
         createD8MultiplierProvider(api, mod, json),
+        createTearCapProvider(api, mod),
       ],
       conditions: [
         createMapButtonHeldCondition(api, mod),

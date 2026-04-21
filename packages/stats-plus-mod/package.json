@@ -1,6 +1,6 @@
 {
   "name": "@isaac-stats-plus/mod",
-  "version": "2.0.7",
+  "version": "2.1.2",
   "license": "GPL-3.0",
   "private": true,
   "repository": {
@@ -12,17 +12,16 @@
   "author": "Aleksander Ciesielski <contact@aleksanderciesiel.ski>",
   "main": "./dist/index",
   "scripts": {
-    "build": "tstl --project tsconfig.build.json && cpy content dist",
+    "build": "tstl --project tsconfig.build.json",
     "test": "vitest run"
   },
   "dependencies": {
-    "@isaac-stats-plus/api": "2.0.7",
-    "@isaac-stats-plus/common": "2.0.7",
-    "@isaac-stats-plus/essentials-addon": "2.0.7",
-    "isaac-typescript-definitions": "37.3.1"
+    "@isaac-stats-plus/api": "2.1.2",
+    "@isaac-stats-plus/common": "2.1.2",
+    "@isaac-stats-plus/essentials-addon": "2.1.2",
+    "isaac-typescript-definitions": "43.0.6"
   },
   "devDependencies": {
-    "cpy-cli": "4.2.0",
     "isaac-lua-polyfill": "1.1.1",
     "type-fest": "3.13.1",
     "typescript": "5.3.3",

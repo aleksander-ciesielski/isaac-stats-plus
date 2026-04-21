@@ -144,7 +144,7 @@ export class Renderer {
   }
 
   private renderChange(slot: StatSlot, loadoutEntry: LoadoutEntry): void {
-    if (!this.configService.getConfig().appearance.showsProviderChanges()) {
+    if (!this.configService.getConfigOrThrow().appearance.showsProviderChanges()) {
       return;
     }
 
@@ -282,7 +282,7 @@ export class Renderer {
       return 0;
     }
 
-    return this.configService.getConfig().appearance.getTextOpacity();
+    return this.configService.getConfigOrThrow().appearance.getTextOpacity();
   }
 
   private getChangeColor(isPositive: boolean, opacity: number): RGBAColor {
@@ -297,7 +297,7 @@ export class Renderer {
   }
 
   private getBracketCharacters(): BracketCharacters {
-    const bracketStyle = this.configService.getConfig().appearance.getBracketStyle();
+    const bracketStyle = this.configService.getConfigOrThrow().appearance.getBracketStyle();
     const bracketCharacters = Renderer.BRACKET_STYLE_SIGNS[bracketStyle] as BracketCharacters | undefined;
 
     if (bracketCharacters === undefined) {

@@ -5,5 +5,4 @@ export interface AppearanceConfigDTO {
   bracketStyle: BracketStyle;
   spacing: number;
   showProviderChanges: boolean;
-  useShaderColorFix: boolean;
 }

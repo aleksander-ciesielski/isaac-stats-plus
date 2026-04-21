@@ -24,7 +24,11 @@ export class ConfigRepository {
     @Inject(ConfigMapper) private readonly configMapper: ConfigMapper,
   ) {}
 
-  public get(): Config {
+  public get(): Config | undefined {
+    return this.config;
+  }
+
+  public getOrThrow(): Config {
     if (this.config === undefined) {
       throw new Error("ConfigRepository has not been initialized.");
     }

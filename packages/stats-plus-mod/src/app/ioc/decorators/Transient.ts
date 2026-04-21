@@ -7,7 +7,7 @@ export function Transient<const TEntity>() {
     APPLICATION_CONTAINER.register(
       target,
       // eslint-disable-next-line new-cap
-      transient((container, ...args) => new target(...args as ConstructorParameters<typeof target>)),
+      transient((_, ...args) => new target(...args as ConstructorParameters<typeof target>)),
     );
   };
 }

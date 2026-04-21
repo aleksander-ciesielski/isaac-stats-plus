@@ -7,7 +7,7 @@ export function Singleton<const TEntity>() {
     APPLICATION_CONTAINER.register(
       target,
       // eslint-disable-next-line new-cap
-      singleton((container, ...args) => new target(...args as ConstructorParameters<typeof target>)),
+      singleton((_, ...args) => new target(...args as ConstructorParameters<typeof target>)),
     );
   };
 }
