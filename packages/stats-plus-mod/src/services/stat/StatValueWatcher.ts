@@ -19,6 +19,7 @@ import { damage } from "~/core/stats/damage";
 import { range } from "~/core/stats/range";
 import { shotSpeed } from "~/core/stats/shotSpeed";
 import { luck } from "~/core/stats/luck";
+import { EnvironmentService } from "~/services/EnvironmentService";
 
 @Singleton()
 export class StatValueWatcher {
@@ -61,6 +62,7 @@ export class StatValueWatcher {
     @Inject(ModCallbackService) private readonly modCallbackService: ModCallbackService,
     @Inject(TimeProvider) private readonly timeProvider: TimeProvider,
     @Inject(PlayerService) private readonly playerService: PlayerService,
+    @Inject(EnvironmentService) private readonly environmentService: EnvironmentService,
   ) {}
 
   public reload(): void {
@@ -106,7 +108,7 @@ export class StatValueWatcher {
           initial: currentNumericValue,
           computeChange: (prev, next) => {
             const value = (next - prev);
-            if (value === 0) {
+            if (value === 0 && !this.environmentService.isRepentancePlus()) {
               return MetricChange.empty(this.timeProvider.getLastRenderTime());
             }
 

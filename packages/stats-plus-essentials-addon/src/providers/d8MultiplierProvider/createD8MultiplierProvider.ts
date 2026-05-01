@@ -59,7 +59,11 @@ export function createD8MultiplierProvider(
             : (next / prev)
         ),
         isPositive: (multiplier) => (multiplier > 1),
-        format: (multiplier) => `x${toFixedFormatted(multiplier, 2)}`,
+        format: (multiplier) => (
+          (multiplier === NEUTRAL_MULTIPLIER)
+            ? undefined
+            : `x${toFixedFormatted(multiplier, 2)}`
+        ),
       },
     },
     mount(ctx) {

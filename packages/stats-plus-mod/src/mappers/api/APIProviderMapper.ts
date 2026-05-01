@@ -12,9 +12,12 @@ import { ProviderComputablesDefinition } from "~/entities/extension/provider/Pro
 import { ProviderColor } from "~/entities/config/appearance/ProviderColor";
 import { Inject } from "~/app/ioc/decorators/Inject";
 import { ModCallbackService } from "~/services/ModCallbackService";
+import { Logger } from "~/Logger";
 
 @Singleton()
 export class APIProviderMapper {
+  private readonly logger = Logger.for(APIProviderMapper.name);
+
   public constructor(
     @Inject(ModCallbackService) private readonly modCallbackService: ModCallbackService,
   ) {}
@@ -49,8 +52,17 @@ export class APIProviderMapper {
       state: new ProviderStateDefinition(apiProvider.state ?? {} as TState),
       display: new ProviderDisplaySettingsDefinition(apiProvider.display),
       computables: new ProviderComputablesDefinition(apiProvider.computables ?? {} as TComputables),
-      mount(ctx) {
-        return apiProvider.mount(ctx.getExternalAPI());
+      mount: (ctx) => {
+        try {
+          return apiProvider.mount(ctx.getExternalAPI());
+        } catch (e) {
+          this.logger.error("Error during provider mount", e, {
+            addonId,
+            providerId: apiProvider.id,
+          });
+
+          return undefined;
+        }
       },
     });
   }

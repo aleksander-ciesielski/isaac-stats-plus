@@ -8,6 +8,7 @@ import { collectibleMultipliers } from "~/providers/damageMultiplierProvider/dat
 import { trinketMultipliers } from "~/providers/damageMultiplierProvider/data/trinketMultipliers";
 import { DAMAGE_MULTIPLIER_PROVIDER_ID } from "~/essentialsAddonConstants";
 import { D8Tracker } from "~/common/D8Tracker";
+import { debounce } from "~/debounce";
 
 export function createDamageMultiplierProvider(
   api: StatsPlusAPI.API,
@@ -15,6 +16,7 @@ export function createDamageMultiplierProvider(
   json: typeof jsonModule,
 ): StatsPlusAPI.Provider {
   const NEUTRAL_MULTIPLIER = 1 as number;
+  const UPDATE_DEBOUNCE_MS = 3_000;
 
   return api.provider({
     id: DAMAGE_MULTIPLIER_PROVIDER_ID,
@@ -47,7 +49,11 @@ export function createDamageMultiplierProvider(
             : (next / prev)
         ),
         isPositive: (multiplier) => (multiplier > 1),
-        format: (multiplier) => `x${toFixedFormatted(multiplier, 2)}`,
+        format: (multiplier) => (
+          (multiplier === NEUTRAL_MULTIPLIER)
+            ? undefined
+            : `x${toFixedFormatted(multiplier, 2)}`
+        ),
       },
     },
     conditions: {
@@ -139,11 +145,11 @@ export function createDamageMultiplierProvider(
         }
       }
 
-      const listener = (entityPlayer: EntityPlayer): void => {
+      const listener = debounce(UPDATE_DEBOUNCE_MS, (entityPlayer: EntityPlayer): void => {
         if (entityPlayer.Index === ctx.player.Index) {
           recomputeMultiplier();
         }
-      };
+      });
 
       const d8Tracker = new D8Tracker(
         api,

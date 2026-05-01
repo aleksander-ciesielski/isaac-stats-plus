@@ -2,53 +2,35 @@ import type * as StatsPlusAPI from "@isaac-stats-plus/api";
 import { CollectibleType, ModCallback } from "isaac-typescript-definitions";
 import { toFixedFormatted } from "@isaac-stats-plus/common";
 import { TEAR_CAP_PROVIDER_ID } from "~/essentialsAddonConstants";
+import { debounce } from "~/debounce";
 
-const TEXT_MAX = "MAX";
-const TEST_COLLECTIBLES: CollectibleType[] = [
-  CollectibleType.SAD_ONION,
-  CollectibleType.NUMBER_ONE,
-  CollectibleType.WIRE_COAT_HANGER,
-  CollectibleType.TOOTH_PICKS,
-  CollectibleType.SCREW,
-  CollectibleType.BAR_OF_SOAP,
-  CollectibleType.ODD_MUSHROOM_THIN,
-];
-
-const EPSILON = 0.001;
+type TearCap =
+  | number
+  | "MAX"
+  | "UNKNOWN";
 
 function fireDelayToTears(fireDelay: number): number {
   return 30 / (fireDelay + 1);
-}
-
-function computeTearCap(player: EntityPlayer): number | undefined {
-  const collectible = TEST_COLLECTIBLES.find((collectible) => !player.HasCollectible(collectible));
-  if (collectible === undefined) {
-    return undefined;
-  }
-
-  let current = player.MaxFireDelay;
-  let previous: typeof current | undefined;
-  let count = 0;
-
-  while (previous === undefined || Math.abs(previous - current) > EPSILON) {
-    previous = current;
-    player.AddCollectible(collectible, undefined, false);
-    current = player.MaxFireDelay;
-
-    count += 1;
-  }
-
-  for (let i = 0; i < count; i += 1) {
-    player.RemoveCollectible(collectible);
-  }
-
-  return (count === 1) ? undefined : current;
 }
 
 export function createTearCapProvider(
   api: StatsPlusAPI.API,
   mod: Mod,
 ): StatsPlusAPI.Provider {
+  const TEXT_MAX = "MAX";
+  const TEST_COLLECTIBLES: CollectibleType[] = [
+    CollectibleType.SAD_ONION,
+    CollectibleType.NUMBER_ONE,
+    CollectibleType.WIRE_COAT_HANGER,
+    CollectibleType.TOOTH_PICKS,
+    CollectibleType.SCREW,
+    CollectibleType.BAR_OF_SOAP,
+    CollectibleType.ODD_MUSHROOM_THIN,
+  ];
+
+  const EPSILON = 0.001;
+  const RECOMPUTE_DEBOUNCE_MS = 3_000;
+
   return api.provider({
     id: TEAR_CAP_PROVIDER_ID,
     name: "Tear Cap",
@@ -57,29 +39,35 @@ export function createTearCapProvider(
     color: "GREEN",
     state: {
       maxFireDelay: {
-        initial: () => 0 as number | undefined,
+        initial: () => 0 as TearCap,
       },
     },
     display: {
       value: {
         get: (state) => state.maxFireDelay,
-        format: (cap) => (
-          (cap === undefined)
-            ? TEXT_MAX
-            : `/${toFixedFormatted(fireDelayToTears(cap), 2)}`
-        ),
+        format: (cap) => {
+          if (cap === "MAX") {
+            return TEXT_MAX;
+          }
+
+          if (cap === "UNKNOWN") {
+            return undefined;
+          }
+
+          return `/${toFixedFormatted(fireDelayToTears(cap), 2)}`;
+        },
       },
       change: {
         compute: (prev, next) => (
-          (next === prev || next === undefined || prev === undefined)
-            ? undefined
-            : (fireDelayToTears(next) - fireDelayToTears(prev))
+          (typeof prev === "number" && typeof next === "number" && prev !== next)
+            ? (fireDelayToTears(next) - fireDelayToTears(prev))
+            : undefined
         ),
-        isPositive: (diff) => (diff !== undefined && diff > 0),
+        isPositive: (diff) => (typeof diff === "number" && diff > 0),
         format: (diff) => (
-          (diff === undefined)
-            ? undefined
-            : `${diff > 0 ? "+" : ""}${toFixedFormatted(diff, 2)}`
+          (typeof diff === "number" && diff !== 0)
+            ? `${diff > 0 ? "+" : ""}${toFixedFormatted(diff, 2)}`
+            : undefined
         ),
       },
     },
@@ -90,18 +78,52 @@ export function createTearCapProvider(
         description: "Activates when the max tear level is reached.",
       },
     },
+    computables: {
+      getTearCapTestCollectible(player: EntityPlayer): CollectibleType | undefined {
+        if (player.HasCollectible(CollectibleType.ROCK_BOTTOM)) {
+          return undefined;
+        }
+
+        return TEST_COLLECTIBLES.find((collectible) => !player.HasCollectible(collectible));
+      },
+      computeTearCap(player: EntityPlayer): TearCap {
+        const collectible = this.getTearCapTestCollectible(player);
+        if (collectible === undefined) {
+          return "UNKNOWN";
+        }
+
+        let current = player.MaxFireDelay;
+        let previous: typeof current | undefined;
+        let count = 0;
+
+        while (previous === undefined || Math.abs(previous - current) > EPSILON) {
+          previous = current;
+          player.AddCollectible(collectible, undefined, false);
+          current = player.MaxFireDelay;
+
+          count += 1;
+        }
+
+        for (let i = 0; i < count; i += 1) {
+          player.RemoveCollectible(collectible);
+        }
+
+        return (count === 1)
+          ? "MAX"
+          : current;
+      },
+    },
     mount(ctx) {
-      function recomputeCap(silent: boolean): void {
-        const cap = computeTearCap(ctx.player);
-        const isMax = (cap === undefined);
+      const recomputeCap = debounce(RECOMPUTE_DEBOUNCE_MS, (silent: boolean) => {
+        const cap = ctx.computables.computeTearCap(ctx.player);
 
         ctx.state.maxFireDelay.set(cap, silent);
-        ctx.conditions.isMax.setActive(isMax);
-      }
+        ctx.conditions.isMax.setActive(cap === "MAX");
+      });
 
       let recompute = false;
       function updateListener(): void {
-        if (!recompute || ctx.player === undefined) {
+        if (!recompute) {
           return;
         }
 
