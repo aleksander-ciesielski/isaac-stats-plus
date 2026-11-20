@@ -41,6 +41,19 @@ describe("PlayerService", () => {
       modWithEvents.events.broadcast(ModCallback.POST_UPDATE);
       expect(lifecycleService.reloadAll).toHaveBeenCalledTimes(1);
     });
+
+    it("calls the LifecycleService.prototype.reload when a player is removed without a player init.", () => {
+      game.GetNumPlayers.mockReturnValue(2);
+      isaac.GetPlayer.mockReturnValue(mock<EntityPlayer>());
+
+      playerService.reload();
+
+      modWithEvents.events.broadcast(ModCallback.POST_UPDATE);
+      expect(lifecycleService.reloadAll).toHaveBeenCalledTimes(0);
+      game.GetNumPlayers.mockReturnValue(1);
+      modWithEvents.events.broadcast(ModCallback.POST_UPDATE);
+      expect(lifecycleService.reloadAll).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe("unregister", () => {
