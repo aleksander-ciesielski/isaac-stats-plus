@@ -16,6 +16,7 @@ export class PlayerService {
 
   private players: Player[] = [];
   private recomputePlayersOnNextTick = false;
+  private numPlayers = 0;
 
   public constructor(
     @Inject(InjectionToken.IsaacAPI) private readonly isaac: typeof Isaac,
@@ -47,7 +48,12 @@ export class PlayerService {
     this.modCallbackService.addCallback(ModCallback.POST_UPDATE, this.onPostUpdateCallback);
 
     this.players = this.findActivePlayers();
+    this.numPlayers = this.game.GetNumPlayers();
     this.logger.debug("Recomputed current players.", { playerCount: this.players.length });
+  }
+
+  public unregister(): void {
+    this.players = [];
   }
 
   private findActivePlayers(): Player[] {
@@ -100,7 +106,8 @@ export class PlayerService {
   }
 
   private onPostUpdate(): void {
-    if (!this.recomputePlayersOnNextTick) {
+    // A player can disappear without a POST_PLAYER_INIT (e.g. Clicker merging Jacob & Esau); the count change catches it.
+    if (!this.recomputePlayersOnNextTick && this.game.GetNumPlayers() === this.numPlayers) {
       return;
     }
 
