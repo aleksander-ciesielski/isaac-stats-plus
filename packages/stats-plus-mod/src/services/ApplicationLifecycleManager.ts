@@ -66,6 +66,8 @@ export class ApplicationLifecycleManager {
 
     try {
       this.loadoutService.unregister();
+      // The exited run's EntityPlayers are freed; keeping them lets render and cache callbacks touch them before the next reload.
+      this.playerService.unregister();
     } catch (e) {
       throw new ErrorWithContext("Error during the mod loadout unregister.", {}, e as Error);
     }

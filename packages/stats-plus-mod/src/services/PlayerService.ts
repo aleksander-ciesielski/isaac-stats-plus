@@ -50,6 +50,10 @@ export class PlayerService {
     this.logger.debug("Recomputed current players.", { playerCount: this.players.length });
   }
 
+  public unregister(): void {
+    this.players = [];
+  }
+
   private findActivePlayers(): Player[] {
     const allEntityPlayers = this.getAllEntityPlayers();
     const activeEntityPlayers: EntityPlayer[] = [];

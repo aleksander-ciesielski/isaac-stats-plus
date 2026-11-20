@@ -2,7 +2,7 @@ import type { Mocked } from "~/testing/types/Mocked";
 import type { ModMockWithEvents } from "~/testing/mocks/createModMockWithEvents";
 import type { LifecycleService } from "~/services/LifecycleService";
 import { mock } from "vitest-mock-extended";
-import { ModCallback } from "isaac-typescript-definitions";
+import { BabySubType, ModCallback } from "isaac-typescript-definitions";
 import { PlayerService } from "~/services/PlayerService";
 import { createModMockWithEvents } from "~/testing/mocks/createModMockWithEvents";
 import { ModCallbackService } from "~/services/ModCallbackService";
@@ -40,6 +40,21 @@ describe("PlayerService", () => {
       expect(lifecycleService.reloadAll).toHaveBeenCalledTimes(1);
       modWithEvents.events.broadcast(ModCallback.POST_UPDATE);
       expect(lifecycleService.reloadAll).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("unregister", () => {
+    it("forgets the players of the exited run.", () => {
+      const entityPlayer = mock<EntityPlayer>();
+      entityPlayer.GetBabySkin.mockReturnValue(BabySubType.UNASSIGNED);
+      game.GetNumPlayers.mockReturnValue(1);
+      isaac.GetPlayer.calledWith(0).mockReturnValue(entityPlayer);
+
+      playerService.reload();
+      expect(playerService.getPlayers()).toHaveLength(1);
+
+      playerService.unregister();
+      expect(playerService.getPlayers()).toHaveLength(0);
     });
   });
 });
