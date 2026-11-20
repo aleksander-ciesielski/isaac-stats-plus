@@ -174,7 +174,10 @@ export function createDamageMultiplierProvider(
       recomputeMultiplier(true);
 
       mod.AddCallback(ModCallback.EVALUATE_CACHE, listener);
-      return () => mod.RemoveCallback(ModCallback.EVALUATE_CACHE, listener);
+      return () => {
+        mod.RemoveCallback(ModCallback.EVALUATE_CACHE, listener);
+        d8Tracker.destroy();
+      };
     },
   });
 }
