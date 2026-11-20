@@ -106,7 +106,7 @@ export class PlayerService {
   }
 
   private onPostUpdate(): void {
-    // Removing a player (Clicker merging Jacob & Esau) fires no POST_PLAYER_INIT, only the count drops.
+    // A player can disappear without a POST_PLAYER_INIT (e.g. Clicker merging Jacob & Esau); the count change catches it.
     if (!this.recomputePlayersOnNextTick && this.game.GetNumPlayers() === this.numPlayers) {
       return;
     }
