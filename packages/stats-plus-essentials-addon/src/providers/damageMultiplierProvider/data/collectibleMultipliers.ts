@@ -15,6 +15,7 @@ export const collectibleMultipliers = new Map<CollectibleType, (player: EntityPl
   [CollectibleType.BLOOD_OF_THE_MARTYR, (player) => {
     if (
       player.HasCollectible(CollectibleType.CRICKETS_HEAD)
+      || player.HasCollectible(CollectibleType.MAGIC_MUSHROOM)
       || player.GetEffects().HasCollectibleEffect(CollectibleType.MAGIC_MUSHROOM)
     ) {
       return;
@@ -24,10 +25,20 @@ export const collectibleMultipliers = new Map<CollectibleType, (player: EntityPl
       ? 1.5
       : undefined;
   }],
-  [CollectibleType.POLYPHEMUS, () => 2],
+  [CollectibleType.POLYPHEMUS, (player) => (
+    (
+      player.HasCollectible(CollectibleType.TWENTY_TWENTY)
+      || player.HasCollectible(CollectibleType.INNER_EYE)
+      || player.HasCollectible(CollectibleType.MUTANT_SPIDER)
+      || player.HasCollectible(CollectibleType.C_SECTION)
+    )
+      ? undefined
+      : 2
+  )],
+  [CollectibleType.HAEMOLACRIA, () => 1.5],
   [CollectibleType.SACRED_HEART, () => 2.3],
   [CollectibleType.EVES_MASCARA, () => 2],
-  [CollectibleType.ALMOND_MILK, () => 0.33],
+  [CollectibleType.ALMOND_MILK, () => 0.3],
   [CollectibleType.SOY_MILK, (player) => (
     player.HasCollectible(CollectibleType.ALMOND_MILK)
       ? undefined
@@ -39,7 +50,6 @@ export const collectibleMultipliers = new Map<CollectibleType, (player: EntityPl
       : undefined
   )],
   [CollectibleType.IMMACULATE_HEART, () => 1.2],
-  [CollectibleType.ODD_MUSHROOM_THIN, () => 0.9],
   [CollectibleType.TWENTY_TWENTY, () => 0.8],
   [CollectibleType.BRIMSTONE, (player) => {
     if (player.HasCollectible(CollectibleType.HAEMOLACRIA)) {
@@ -52,8 +62,6 @@ export const collectibleMultipliers = new Map<CollectibleType, (player: EntityPl
         : undefined;
     }
 
-    return (player.HasCollectible(CollectibleType.TECHNOLOGY) && player.HasCollectible(CollectibleType.TECH_X))
-      ? 1.8
-      : 1.2;
+    return 1.2;
   }],
 ]);
