@@ -1,4 +1,5 @@
 import { CollectibleType, PlayerType } from "isaac-typescript-definitions";
+import { aboveBaseDamageMultiplier } from "~/providers/damageMultiplierProvider/data/aboveBaseDamageMultiplier";
 
 export const characterMultipliers = new Map<PlayerType, (player: EntityPlayer) => number | undefined>([
   [PlayerType.CAIN, () => 1.2],
@@ -21,4 +22,5 @@ export const characterMultipliers = new Map<PlayerType, (player: EntityPlayer) =
   [PlayerType.FORGOTTEN_B, () => 1.5],
   [PlayerType.LAZARUS_2_B, () => 1.5],
   [PlayerType.CAIN_B, () => 1.2],
+  [PlayerType.BETHANY_B, (player) => aboveBaseDamageMultiplier(player.Damage, 0.75)],
 ]);
