@@ -25,7 +25,6 @@ export function createTearCapProvider(
     CollectibleType.TOOTH_PICKS,
     CollectibleType.SCREW,
     CollectibleType.BAR_OF_SOAP,
-    CollectibleType.ODD_MUSHROOM_THIN,
   ];
 
   const EPSILON = 0.001;
